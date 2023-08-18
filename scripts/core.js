@@ -7,10 +7,10 @@ submitContainer.style.display = "none";
 
 const qrCodeSuccessCallback = (decodedText, decodedResult) => {
     window.navigator.vibrate(200);
-    
+
     /* handle success */
     resultContainer.innerText = decodedText;
-    getLocation();
+    getLocation(true);
     console.log(`Scan result ${decodedText}`, decodedResult);
 
     submitContainer.style.display = "block";
@@ -24,7 +24,7 @@ const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
 
 function StartScanning() {
-    getLocation();
+    getLocation(false);
     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
     resultContainer.innerText = "";
 
@@ -39,14 +39,14 @@ function SendResponse() {
 }
 
 
-function getLocation() {
+function getLocation(writeResult) {
     if (navigator.geolocation) {
         var position;
-        navigator.geolocation.getCurrentPosition((position)=>{
-            
-            resultContainer.innerText += "\n\nhttp://www.google.com/maps/place/"+position.coords.latitude+","+position.coords.longitude+"";
+        navigator.geolocation.getCurrentPosition((position) => {
+            if (writeResult)
+                resultContainer.innerText += "\n\nhttp://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "";
         });
-        
+
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
