@@ -33,7 +33,7 @@ function StartScanning() {
 
 function SendResponse() {
     var waLink = "https://wa.me/?text=";
-    waLink += "Ciao, ho appena scansionato questo QR code: ";
+    waLink += "Ciao, ho appena scansionato questo QR code: \n ";
     waLink += encodeURIComponent(resultContainer.innerText);
     window.open(waLink, '_blank');
 }
