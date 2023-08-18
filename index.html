@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Instascan</title>
-    <script type="text/javascript" src="scripts/instascan.min.js"></script>
-  </head>
-  <body>
-    <video id="preview"></video>
+
+<head>
+    <title>Inspirational Lab</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"> </script>
+</head>
+
+<body>
+    <div id="qr-reader" style="width:500px"></div>
+    <div id="qr-reader-results"></div>
+
     <script type="text/javascript">
-      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-      scanner.addListener('scan', function (content) {
-        console.log(content);
-      });
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-          scanner.start(cameras[0]);
-        } else {
-          console.error('No cameras found.');
+        var resultContainer = document.getElementById('qr-reader-results');
+        var lastResult, countResults = 0;
+
+        function onScanSuccess(decodedText, decodedResult) {
+            if (decodedText !== lastResult) {
+                ++countResults;
+                lastResult = decodedText;
+                // Handle on success condition with the decoded message.
+                resultContainer.innerText = `Scan result ${countResults}: ${decodedText}`;
+                console.log(`Scan result ${decodedText}`, decodedResult);
+            }
         }
-      }).catch(function (e) {
-        console.error(e);
-      });
+
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
     </script>
-  </body>
+</body>
+
 </html>
