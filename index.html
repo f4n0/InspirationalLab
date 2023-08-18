@@ -4,73 +4,58 @@
 <head>
     <title>Inspirational Lab</title>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"> </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        body,
+        html {
+            height: 100%;
+        }
+
+        #reader {
+            margin: 0 auto;
+            width:50%;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="reader" style="width:500px"></div>
-    <button onclick="StartScanning()">Scan!</button>
-    <h2>Risultato della scansione:</h2>
-    <h4 id="qr-reader-results"></h4>
 
-    <button id="submitResponse" onclick="SendResponse()">Invia!</button>
+    <div class=" h-100">
+        <div class="row align-items-center h-100">
+            <div class="col">
+            <div class="d-flex aligns-items-center justify-content-center card text-center w-75 mx-auto">
+                <div class="card-header">
+                    <h5 class="card-title">Inspirational Lab</h5>
+                </div>
+                <div class="card-body">
+                    <div id="reader"></div>
 
-    <script type="text/javascript">
-        const html5QrCode = new Html5Qrcode("reader");
-        var resultContainer = document.getElementById('qr-reader-results');
-        var submitContainer = document.getElementById('submitResponse');
+                    <a href="#" class="btn btn-success" onclick="StartScanning()">Scansiona!</a>
+                </div>
+                <div class="card-footer">
+                    <h4>Risultato della scansione:</h4>
+                    <h5 id="qr-reader-results"> </h5>
 
-        submitContainer.style.display = "none";
-        
-
-        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
-            window.navigator.vibrate(200);
-            
-            /* handle success */
-            resultContainer.innerText = decodedText;
-            getLocation();
-            console.log(`Scan result ${decodedText}`, decodedResult);
-
-            submitContainer.style.display = "block";
-            html5QrCode.stop().then((ignore) => {
-                // QR Code scanning is stopped.
-            }).catch((err) => {
-                // Stop failed, handle it.
-            });
-        };
-        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+                    <div id="ResponseSubmitContainer">
+                        <h4>Invialo al tu&#601; cap&#601;:</h4>
+                        <a href="#" class="btn btn-success"  id="submitResponse" onclick="SendResponse()">Invia!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
 
 
-        function StartScanning() {
-            getLocation();
-            html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
-            resultContainer.innerText = "";
-
-            submitContainer.style.display = "none";
-        }
-
-        function SendResponse() {
-            var waLink = "https://wa.me/?text=";
-            waLink += "Ciao, ho appena scansionato questo QR code: ";
-            waLink += encodeURIComponent(resultContainer.innerText);
-            window.open(waLink, '_blank');
-        }
 
 
-        function getLocation() {
-            if (navigator.geolocation) {
-                var position;
-                navigator.geolocation.getCurrentPosition((position)=>{
-                    
-                    resultContainer.innerText += "\n\nhttp://www.google.com/maps/place/"+position.coords.latitude+","+position.coords.longitude+"";
-                });
-                
-            } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 
-
-    </script>
+    <script src="scripts/core.js" type="text/javascript"></script>
 </body>
 
 </html>
