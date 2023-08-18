@@ -7,8 +7,6 @@
 </head>
 
 <body>
-    <input type="text" role="cell" id="Cellphone" placeholder="Inserisci il numero di telefono del tuo Capo!" />
-
     <div id="reader" style="width:500px"></div>
     <button onclick="StartScanning()">Scan!</button>
     <h2>Risultato della scansione:</h2>
@@ -51,8 +49,7 @@
         }
 
         function SendResponse() {
-            var number = document.getElementById("Cellphone").value;
-            var waLink = "https://wa.me/" + number + "?text=";
+            var waLink = "https://wa.me/?text=";
             waLink += "Ciao, ho appena scansionato questo QR code: ";
             waLink += encodeURIComponent(resultContainer.innerText);
             window.open(waLink, '_blank');
