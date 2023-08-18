@@ -54,7 +54,7 @@
             var number = document.getElementById("Cellphone").value;
             var waLink = "https://wa.me/" + number + "?text=";
             waLink += "Ciao, ho appena scansionato questo QR code: ";
-            waLink += resultContainer.innerText;
+            waLink += encodeURIComponent(resultContainer.innerText);
             window.open(waLink, '_blank');
         }
 
@@ -63,8 +63,8 @@
             if (navigator.geolocation) {
                 var position;
                 navigator.geolocation.getCurrentPosition((position)=>{
-                    resultContainer.innerText += "Latitudine: " + position.coords.latitude +
-                    "\n Longitudine: " + position.coords.longitude;
+                    
+                    resultContainer.innerText += "\n\nhttp://www.google.com/maps/place/"+position.coords.latitude+","+position.coords.longitude+"";
                 });
                 
             } else {
