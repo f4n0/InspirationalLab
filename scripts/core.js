@@ -2,7 +2,6 @@ const html5QrCode = new Html5Qrcode("reader");
 var resultContainer = document.getElementById('qr-reader-results');
 var submitContainer = document.getElementById('ResponseSubmitContainer');
 var StartScanningBtn = document.getElementById('StartScanning');
-var geolocation = document.getElementById('geolocation');
 
 submitContainer.style.display = "none";
 
@@ -27,34 +26,39 @@ const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
 function StartScanning() {
     //only to see if has permission
-    getLocation(false);
+    getLocation();
     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
     resultContainer.innerText = "";
     StartScanningBtn.style.display = "none";
     submitContainer.style.display = "none";
 }
 
-function SendResponse() {
+async function SendResponse() {
     var oldtext = resultContainer.innerText;
-    getLocation(true);
-    var waLink = "https://wa.me/?text=";
-    waLink += encodeURIComponent("Ciao, ho appena scansionato questo QR code: \n ");
-    waLink += encodeURIComponent(resultContainer.innerText);
-    waLink += encodeURIComponent(geolocation.innerText);
-    window.open(waLink, '_blank');
-    resultContainer.innerText = oldtext;    
+    getLocation().then((position) => {
+        var waLink = "https://wa.me/?text=";
+        waLink += encodeURIComponent("Ciao, ho appena scansionato questo QR code: \n ");
+        waLink += encodeURIComponent(resultContainer.innerText);
+        waLink += encodeURIComponent("\n\n"+position);
+        window.open(waLink, '_blank');
+        resultContainer.innerText = oldtext;  
+    });
+      
 }
 
 
-function getLocation(writeResult) {
-    if (navigator.geolocation) {
-        var position;
-        navigator.geolocation.getCurrentPosition((position) => {
-            if (writeResult)
-            geolocation.innerText = "\n\nhttp://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "";
-        });
-
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
+function getLocation() {
+    return new Promise(result => {
+        if (navigator.geolocation) {
+            var position;
+            navigator.geolocation.getCurrentPosition((position) => {
+                result(position);
+                //geolocation.innerText = "http://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "";
+            });
+    
+        } else {
+            result("");
+        }
+    })
+    
 }
