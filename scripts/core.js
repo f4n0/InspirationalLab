@@ -39,7 +39,7 @@ async function SendResponse() {
         var waLink = "https://wa.me/?text=";
         waLink += encodeURIComponent("Ciao, ho appena scansionato questo QR code: \n ");
         waLink += encodeURIComponent(resultContainer.innerText);
-        waLink += encodeURIComponent("\n\n"+position);
+        waLink += encodeURIComponent("\n\nhttp://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "");
         window.open(waLink, '_blank');
         resultContainer.innerText = oldtext;  
     });
