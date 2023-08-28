@@ -1,6 +1,8 @@
 const html5QrCode = new Html5Qrcode("reader");
 var resultContainer = document.getElementById('qr-reader-results');
 var submitContainer = document.getElementById('ResponseSubmitContainer');
+var StartScanningBtn = document.getElementById('StartScanning');
+var geolocation = document.getElementById('geolocation');
 
 submitContainer.style.display = "none";
 
@@ -10,10 +12,10 @@ const qrCodeSuccessCallback = (decodedText, decodedResult) => {
 
     /* handle success */
     resultContainer.innerText = decodedText;
-    getLocation(true);
     console.log(`Scan result ${decodedText}`, decodedResult);
 
     submitContainer.style.display = "block";
+    StartScanningBtn.style.display = "block";
     html5QrCode.stop().then((ignore) => {
         // QR Code scanning is stopped.
     }).catch((err) => {
@@ -24,18 +26,23 @@ const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
 
 function StartScanning() {
+    //only to see if has permission
     getLocation(false);
     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
     resultContainer.innerText = "";
-
+    StartScanningBtn.style.display = "none";
     submitContainer.style.display = "none";
 }
 
 function SendResponse() {
+    var oldtext = resultContainer.innerText;
+    getLocation(true);
     var waLink = "https://wa.me/?text=";
-    waLink += "Ciao, ho appena scansionato questo QR code: \n ";
+    waLink += encodeURIComponent("Ciao, ho appena scansionato questo QR code: \n ");
     waLink += encodeURIComponent(resultContainer.innerText);
+    waLink += encodeURIComponent(geolocation.innerText);
     window.open(waLink, '_blank');
+    resultContainer.innerText = oldtext;    
 }
 
 
@@ -44,7 +51,7 @@ function getLocation(writeResult) {
         var position;
         navigator.geolocation.getCurrentPosition((position) => {
             if (writeResult)
-                resultContainer.innerText += "\n\nhttp://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "";
+            geolocation.innerText = "\n\nhttp://www.google.com/maps/place/" + position.coords.latitude + "," + position.coords.longitude + "";
         });
 
     } else {

@@ -15,9 +15,9 @@
         }
 
         #reader {
-            margin: 0 auto;
-            width:50%;
-            margin-bottom: 10px;
+            width: 80%;
+            margin: auto;
+            padding: 0px;
         }
     </style>
 </head>
@@ -27,26 +27,24 @@
     <div class=" h-100">
         <div class="row align-items-center h-100">
             <div class="col">
-            <div class="d-flex aligns-items-center justify-content-center card text-center w-75 mx-auto">
-                <div class="card-header">
-                    <h5 class="card-title">Inspirational Lab</h5>
-                </div>
-                <div class="card-body">
-                    <div id="reader"></div>
+                <div class="d-flex aligns-items-center justify-content-center card text-center w-75 mx-auto">
+                    <div class="card-body">
+                        <div id="reader"></div>
 
-                    <a href="#" class="btn btn-success" onclick="StartScanning()">Scansiona!</a>
-                </div>
-                <div class="card-footer">
-                    <h4>Risultato della scansione:</h4>
-                    <h5 id="qr-reader-results"> </h5>
+                        <a href="#" class="btn btn-success" id="StartScanning" onclick="StartScanning()">Scansiona!</a>
+                    </div>
+                    <div class="card-footer">
+                        <h5>Risultato della scansione:</h5>
+                        <p id="qr-reader-results"> </p>
 
-                    <div id="ResponseSubmitContainer">
-                        <h4>Invialo al tu&#601; cap&#601;:</h4>
-                        <a href="#" class="btn btn-success"  id="submitResponse" onclick="SendResponse()">Invia!</a>
+                        <div id="ResponseSubmitContainer">
+                            <h4>Invialo al tu&#601; cap&#601;:</h4>
+                            <a href="#" class="btn btn-success" id="submitResponse" onclick="SendResponse()">Invia!</a>
+                        </div>
+                        <p id="geolocation" style="display: none;"></p>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 
