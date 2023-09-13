@@ -39,9 +39,9 @@ const config = { fps: 10,
 function StartScanning() {
     //only to see if has permission
     getLocation();
-    alert(html5QrCode.getRunningTrackCameraCapabilities().zoomFeature());
     html5QrCode.start({ facingMode: "environment",  }, config, qrCodeSuccessCallback);
-
+    
+    alert(html5QrCode.getRunningTrackCameraCapabilities().zoomFeature());
 
     
     resultContainer.innerText = "";
