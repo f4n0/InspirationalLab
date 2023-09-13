@@ -41,8 +41,6 @@ function StartScanning() {
     getLocation();
     html5QrCode.start({ facingMode: "environment",  }, config, qrCodeSuccessCallback);
     
-    alert(html5QrCode.getRunningTrackCameraCapabilities().zoomFeature());
-
     
     resultContainer.innerText = "";
     StartScanningBtn.style.display = "none";
