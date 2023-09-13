@@ -30,7 +30,10 @@ let qrboxFunction = function(viewfinderWidth, viewfinderHeight) {
         height: qrboxSize
     };
 }
-const config = { fps: 10, qrbox: qrboxFunction };
+const config = { fps: 10,
+                qrbox: qrboxFunction,
+                showTorchButtonIfSupported: true,
+                showZoomSliderIfSupported: true };
 
 
 function StartScanning() {
